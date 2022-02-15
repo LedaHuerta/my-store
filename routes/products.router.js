@@ -13,15 +13,13 @@ router.get('/filter', (req, res) => {
   res.send('Yo soy un filter');
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await service.findOne(id);
     res.json(product);
   } catch (err) {
-    res.status(404).json({
-      message: err.message,
-    });
+    next(err);
   }
 });
 

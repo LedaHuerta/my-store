@@ -38,6 +38,7 @@ class ProductsService {
   }
 
   async findOne(id) {
+    const name = this.getTotal();
     const product = this.products.find((item) => item.id === id);
     if (product === (null || undefined)) {
       throw new Error('Product Not Found');
