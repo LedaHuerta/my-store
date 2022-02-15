@@ -1,6 +1,10 @@
 const express = require('express');
 const routerApi = require('./routes');
-const { logErrors, errorHandler } = require('./middlewares/error.handler');
+const {
+  logErrors,
+  errorHandler,
+  boomErrorHandler,
+} = require('./middlewares/error.handler');
 const app = express();
 const port = 3005;
 const ip = '192.168.137.1';
@@ -25,4 +29,5 @@ routerApi(app);
 //Los middleware de tipo error se deben poner después de definir el routing
 //En el orden en que se pongan aquí, es como se van a ejecutar.
 app.use(logErrors);
+app.use(boomErrorHandler);
 app.use(errorHandler);

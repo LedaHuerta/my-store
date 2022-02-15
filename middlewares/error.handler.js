@@ -15,4 +15,16 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-module.exports = { logErrors, errorHandler };
+// Boom middleware:.
+const boomErrorHandler = (err, req, res, next) => {
+  console.log('boomErrorHandler'); //saber orden de ejecución
+  if (err.isBoom) {
+    const {
+      output: { statusCode, payload },
+    } = err;
+    res.status(statusCode).json(payload);
+  }
+  next(err);
+};
+
+module.exports = { logErrors, errorHandler, boomErrorHandler };
