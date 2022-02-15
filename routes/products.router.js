@@ -1,22 +1,11 @@
 const express = require('express');
-const casual = require('casual');
-
+const ProductsService = require('../services/product.service');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  const products = [];
-  const { size } = req.query; //queryparams
-  const limit = size || 10;
+const service = new ProductsService();
 
-  for (let i = 0; i < limit; i++) {
-    products.push({
-      id: casual.uuid,
-      name: casual.city,
-      price: casual.integer((from = 1000), (to = 10000)),
-      image:
-        'https://www.gaiadesign.com.mx/media/catalog/product/cache/28cb47c806b746a91bc25b380c9673fa/m/a/maceta_mediana_xitle_negro_still1_v1.jpg',
-    });
-  }
+router.get('/', (req, res) => {
+  const products = service.find();
   res.json(products);
 });
 
@@ -26,25 +15,14 @@ router.get('/filter', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  if (id === '999') {
-    res.status(404).json({
-      message: 'Not Found',
-    });
-  } else {
-    res.status(200).json({
-      id,
-      name: 'Product 2',
-      price: 2000,
-    });
-  }
+  const product = service.findOne(id);
+  res.json(product);
 });
 
 router.post('/', (req, res) => {
   const body = req.body;
-  res.status(201).json({
-    message: 'created',
-    data: body,
-  });
+  const newProduct = service.create(body);
+  res.status(201).json(newProduct);
 });
 
 router.put('/:id', (req, res) => {
@@ -52,11 +30,8 @@ router.put('/:id', (req, res) => {
     body,
     params: { id },
   } = req;
-  res.json({
-    message: 'updated',
-    data: body,
-    id,
-  });
+  const product = service.update(id, body);
+  res.json(product);
 });
 
 router.patch('/:id', (req, res) => {
@@ -64,19 +39,14 @@ router.patch('/:id', (req, res) => {
     body,
     params: { id },
   } = req;
-  res.json({
-    message: 'updated',
-    data: body,
-    id,
-  });
+  const product = service.patch(id, body);
+  res.json(product);
 });
 
 router.delete('/:id', (req, res) => {
-  const id = req.params;
-  res.json({
-    message: 'deleted',
-    id,
-  });
+  const { id } = req.params;
+  const rta = service.delete(id);
+  res.json(rta);
 });
 
 module.exports = router;
