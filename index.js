@@ -4,6 +4,8 @@ const app = express();
 const port = 3005;
 const ip = '192.168.137.1';
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
   res.send('Hello World, this is my first server on express');
 });
