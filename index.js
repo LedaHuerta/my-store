@@ -16,7 +16,8 @@ app.get('/home', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
-  console.log(`http://${ip}:${port}/`);
+  console.log(`http://${ip}:${port}/api/v1`);
+  console.log(`http://localhost:${port}/api/v1`);
 });
 
 routerApi(app);
