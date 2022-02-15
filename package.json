@@ -19,6 +19,7 @@
     "prettier": "^2.5.1"
   },
   "dependencies": {
+    "casual": "^1.6.2",
     "express": "^4.17.2"
   }
 }
