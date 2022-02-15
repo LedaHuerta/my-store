@@ -14,9 +14,15 @@ router.get('/filter', (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const product = await service.findOne(id);
-  res.json(product);
+  try {
+    const { id } = req.params;
+    const product = await service.findOne(id);
+    res.json(product);
+  } catch (err) {
+    res.status(404).json({
+      message: err.message,
+    });
+  }
 });
 
 router.post('/', async (req, res) => {
@@ -26,27 +32,45 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const {
-    body,
-    params: { id },
-  } = req;
-  const product = await service.update(id, body);
-  res.json(product);
+  try {
+    const {
+      body,
+      params: { id },
+    } = req;
+    const product = await service.update(id, body);
+    res.json(product);
+  } catch (err) {
+    res.status(404).json({
+      message: err.message,
+    });
+  }
 });
 
 router.patch('/:id', async (req, res) => {
-  const {
-    body,
-    params: { id },
-  } = req;
-  const product = await service.patch(id, body);
-  res.json(product);
+  try {
+    const {
+      body,
+      params: { id },
+    } = req;
+    const product = await service.patch(id, body);
+    res.json(product);
+  } catch (err) {
+    res.status(404).json({
+      message: err.message,
+    });
+  }
 });
 
 router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  const rta = await service.delete(id);
-  res.json(rta);
+  try {
+    const { id } = req.params;
+    const rta = await service.delete(id);
+    res.json(rta);
+  } catch (err) {
+    res.status(404).json({
+      message: err.message,
+    });
+  }
 });
 
 module.exports = router;
